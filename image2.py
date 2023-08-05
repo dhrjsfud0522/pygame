@@ -34,6 +34,7 @@ while not done:
     screen.blit(mushroom_image_1, [100, 80])
     screen.blit(mushroom_image_2, [300, 100])
     screen.blit(mushroom_image_3, [450, 140])
+
     # 화면 업데이트
     pygame.display.flip()
     clock.tick(60)

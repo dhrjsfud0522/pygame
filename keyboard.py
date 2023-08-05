@@ -39,10 +39,10 @@ while(not done):
             elif(event.key == pygame.K_DOWN):
                 keyboard_dy = 3
         elif(event.type == pygame.KEYUP):
-
-            keyboard_dx = 0
-
-            keyboard_dy = 0
+            if(event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT):
+                keyboard_dx = 0
+            elif(event.key == pygame.K_UP or event.key == pygame.K_DOWN):
+                keyboard_dy = 0
 
     keyboard_x += keyboard_dx
     keyboard_y += keyboard_dy

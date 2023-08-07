@@ -17,7 +17,7 @@ GREEN = (0, 255, 0)
 screen.fill(WHITE)
 rect = pygame.Rect(0, 0, 100, 100)
 rect.center = (SC_w//2, SC_h//2)
-pygame.draw.rect(screen, BLACK, rect, 0)
+
 running = True
 while running:
     

@@ -37,7 +37,7 @@ class Ball():
         """공 리셋"""
         self.rect.x = x
         self.rect.y = y
-        self.dx = random.randint(-3.3)
+        self.dx = random.randint(-3,3)
         self.dy = 5
     def draw(self, screen):
         """공 그리기"""

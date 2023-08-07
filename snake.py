@@ -10,7 +10,7 @@ GRID_WIDTH = SCREEN_WIDTH / GRID_SIZE
 GRID_HEIGHTH = SCRENN_HEIGHT / GRID_SIZE
 
 WHITE = (255, 255, 255)
-ORANGE = (2250, 150, 0)
+ORANGE = (225, 150, 0)
 GRAY = (100, 100, 100)
 BLACK = (0, 0, 0)
 
@@ -60,9 +60,11 @@ class Snake():
 
     def draw(self, screen):
         """뱀 그리기"""
-        for p in self.positions:
+        red, green ,blue = 50 / (self.length - 1), 150, 150 / (self.length - 1)
+        for i, p in enumerate(self.positions):
+            color = (100 + red * i, green, blue * i)
             rect = pygame.Rect((p[0], p[1]), (GRID_SIZE, GRID_SIZE))
-            pygame.draw.rect(screen, GRAY, rect)
+            pygame.draw.rect(screen, color, rect)
 
 class Feed():
     """먹이 객체"""
@@ -79,7 +81,6 @@ class Feed():
         self.position = x * GRID_SIZE, y * GRID_SIZE
 
     def draw(self, screen):
-        """먹이 그리기"""
         rect = pygame.Rect((self.position[0], self.position[1]), (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.color, rect)
 
@@ -88,7 +89,7 @@ class Game():
     def __init__(self):
         self.snake = Snake()
         self.feed = Feed()
-        self.speed = 5
+        self.speed = 20
 
     def process_events(self):
         """게임 이벤트 처리 및 조작"""
@@ -108,11 +109,11 @@ class Game():
     
     def run_logic(self):
         """게임 로직 수행"""
-        self.snake.momve()
+        self.snake.move()
         self.check_eat(self.snake, self.feed)
-        self.speed = (10 + self.snake.length) / 2
+        self.speed = (20 + self.snake.length) / 2
     
-    def check_eat(snake, feed):
+    def check_eat(self, snake, feed):
         """뱀이 먹이를 먹었는지 체크"""
         if snake.positions[0] == feed.position:
             snake.eat()
@@ -141,16 +142,14 @@ def main():
     pygame.display.set_caption("Snake Game")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCRENN_HEIGHT))
     clock = pygame.time.Clock()
-
+    game = Game()
     done = False
     while(not done):
-        game = Game()
         done = game.process_events()
         game.run_logic()
         game.display_frame(screen)
         pygame.display.flip()
         clock.tick(game.speed)
-        
 
     pygame.quit
 

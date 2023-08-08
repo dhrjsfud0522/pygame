@@ -32,8 +32,9 @@ class Fish():
     def update(self):
         self.dy += 0.5
         self.rect.y += self.dy
+
         if self.rect.y <= 0:
-            self.y = 0
+            self.rect.y = 0
         if self.rect.y + self.height > SC_h:
             self.rect.y = SC_h - self.height
             self.dy = 0
@@ -119,7 +120,7 @@ class Game():
                 self.score += 1
             if pipe.out_of_screen():
                 del self.pipes[0]
-                self.pipe_pos = random.randrange(200, 400, 4)
+                self.pipe_pos = random.randrange(200, 300, 4)
             if pipe.check_crash(self.fish):
                 pygame.mixer_music.stop()
                 self.menu_on = True

@@ -68,7 +68,7 @@ class player():
 class Enemy():
     """적 객체"""
     def __init__(self, pong_sound):
-        self.rect = pygame.Rect(SC_w//2, 40, 50, 15)
+        self.rect = pygame.Rect(SC_w//2, 40, 30, 15)
         self.pong_sound = pong_sound
     def update(self, ball):
         if self.rect.centerx > ball.rect.centerx:
@@ -125,10 +125,10 @@ class Game():
         self.enemy.update(self.ball)
         if self.ball.rect.top < 0:
             self.player_score += 1
-            self.ball.reset(self.player.rect.centerx, self.player.rect.centery)
+            self.ball.reset(self.player.rect.centerx, self.player.rect.top)
         elif self.ball.rect.bottom > SC_h:
             self.enemy_score += 1
-            self.ball.reset(self.enemy.rect.centerx, self.enemy.rect.centery)
+            self.ball.reset(self.enemy.rect.centerx, self.enemy.rect.bottom)
     def display_message(self, screen, messege, color):
         label = self.font.render(messege, True, color)
         width = label.get_width()
@@ -140,12 +140,12 @@ class Game():
     def display_frame(self, screen):
         screen.fill(BLUE)
         if self.player_score == 10:
-            self.display_message(screen, "너 이김ㅋ 좀 하누ㅋㅋ", WHITE)
+            self.display_message(screen, "YOU WIN", WHITE)
             self.player_score = 0
             self.enemy_score = 0
             pygame.time.wait(2000)
         elif self.enemy_score == 10:
-            self.display_message(screen, "너 짐ㅋㅋ 연습하고 와라ㅋ", WHITE)
+            self.display_message(screen, "YOU LOSE", WHITE)
             self.player_score = 0
             self.enemy_score = 0
             pygame.time.wait(2000)

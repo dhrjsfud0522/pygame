@@ -102,10 +102,10 @@ class Game():
             if self.menu_on:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pygame.mixer.music.play(-1)
-                    pygame.mouse.set_visible(True)
+                    pygame.mouse.set_visible(False)
                     self.score = 0
                     self.warp_count = 1
-                    self.menu_on = True
+                    self.menu_on = False
             else:
                 if event.type == pygame.MOUSEMOTION:
                     self.spaceship.set_pos(*pygame.mouse.get_pos())
@@ -115,7 +115,7 @@ class Game():
                         self.warp_sound.play()
                         sleep(1)
                         self.rocks.empty()
-        return False
+        return True
 
     def run_logic(self, screen):
         occur_of_rocks = 1 + int(self.score / 500)

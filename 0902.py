@@ -34,16 +34,18 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             if event.key ==pygame. K_UP:
-                dy = -4
+                    dy = -4
             elif event.key ==pygame. K_DOWN:
                 dy = 4
             elif event.key ==pygame. K_RIGHT:
                 dx = 4
             elif event.key ==pygame. K_LEFT:
                 dx = -4
-        else:
-            dx = 0
-            dy = 0
+        elif event.type == pygame.KEYUP:
+            if(event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT):
+                dx = 0
+            elif(event.key == pygame.K_UP or event.key == pygame.K_DOWN):
+                dy = 0
     screen.fill(WHITE)
     pygame.draw.line(screen, RED, [50, 50], [300, 300], 50)
     pygame.draw.line(screen, RED, [300, 50], [50, 300], 50)
@@ -57,7 +59,7 @@ while running:
     text2 = font.render("9월 2일 토요일", True, BLACK)
     screen.blit(text2, [50, 50])
     screen.blit(fish_image, [x, y])
-    
+
     x += dx
     y +=dy
     pygame.display.flip()

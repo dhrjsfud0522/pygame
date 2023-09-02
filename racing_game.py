@@ -130,6 +130,7 @@ class Game():
         self.player = Car()
         self.score = 0
         self.menu_on = True
+
     def process_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

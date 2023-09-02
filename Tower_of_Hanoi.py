@@ -25,9 +25,9 @@ while running:
             running = False
     screen.fill(C)
     pygame.draw.rect(screen, B, [0, 500, 800, 600], 0)
-    pygame.draw.rect(screen, B, [135, 240, 30, 300], 0)
-    pygame.draw.rect(screen, B, [385, 240, 30, 300], 0)
-    pygame.draw.rect(screen, B, [635, 240, 30, 300], 0)
+    pygame.draw.rect(screen, B, [138, 240, 24, 300], 0)
+    pygame.draw.rect(screen, B, [388, 240, 24, 300], 0)
+    pygame.draw.rect(screen, B, [638, 240, 24, 300], 0)
     pygame.display.flip()
     clock.tick(60)
 pygame.quit()

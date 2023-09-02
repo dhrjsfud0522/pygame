@@ -86,9 +86,9 @@ class Car():
         self.y += self.dy
 
     def out_of_screen(self):
-        if self.x < 0 or sc_w - self.width > 0:
+        if self.x + self.width > sc_w or self.x < 0:
             self.x -= self.dx
-        if self.y < 0 or sc_h - self.height > 0:
+        if self.y + self.height > sc_h or self.y < 0:
             self.y -= self.dy
 
     def check_crash(self, car):
@@ -138,6 +138,7 @@ class Game():
             if self.menu_on:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
+
                         pygame.mixer.music.play(-1)
                         pygame.mouse.set_visible(False)
                         self.score = 0

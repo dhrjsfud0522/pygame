@@ -1,48 +1,34 @@
 import pygame
 import os
 
-SC_w = 900
-SC_h = 700
+sc_w = 800
+sc_h = 600
 
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+B = (153, 102, 0)
+C = (153, 153, 153)
 
-current_path = os.path.dirname("__file__")
-assets_path = os.path.join(current_path, "assets")
+pygame.init()
+pygame.display.set_caption("Tower_of_Hanoi")
+screen = pygame.display.set_mode((sc_w, sc_h))
+clock = pygame.time.Clock()
 
-class Game():
-    def __init__(self):
-        pygame.mixer.music.load(os.path.join(assets_path, "bgm.mp3"))
-        self.menu_on = True
-    def process_events(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return False
-            if self.menu_on:
-                
-            else:
-        return True
-    
-    def run_logic(self, screen):     
-        self.menu_on = True
+running = True
 
-    def display_menu(self, screen):
-        self.draw_text(screen, "Press Space Key to Play", self.font, center_x, center_y, DARK_GROUND)
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    screen.fill(C)
+    pygame.draw.rect(screen, B, [0, 500, 800, 600], 0)
+    pygame.draw.rect(screen, B, [135, 240, 30, 300], 0)
+    pygame.draw.rect(screen, B, [385, 240, 30, 300], 0)
+    pygame.draw.rect(screen, B, [635, 240, 30, 300], 0)
+    pygame.display.flip()
+    clock.tick(60)
+pygame.quit()
 
-def main():
-    pygame.init()
-    screen = pygame.display.set_mode((SC_w, SC_h))
-    pygame.display.set_caption("Tower of Hanoi")
-    clock = pygame.time.Clock()
-    game = Game()
-    running = True
-    while running:
-        running = game.process_events()
-        if game.menu_on:
-            game.display_menu(screen)
-        else:
-            game.run_logic(screen)
-            game.display_frame(screen)
-        pygame.display.flip()
-        clock.tick(60)
-    pygame.quit()
-
-main()

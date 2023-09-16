@@ -12,6 +12,14 @@ RED = (200, 50, 50)
 BLUE = (50, 50, 200)
 GREEN = (50, 200, 50)
 
+step = 0
+choise = 0
+change = 0
+s1 = []
+s2 = []
+s3 = []
+
+
 class Ring():
     def __init__(self):
         pass
@@ -23,19 +31,48 @@ class Ring():
             Ring().create(screen, n, i, s, RED)
             s += 1
 
+def change_ring(l1, l2, l3, n1, n2, n3): #(자기 자신, 2번째 꺼, 3번쨰 꺼)
+        global step
+        global choise
+        global change
+        if step == 0:
+            if len(l1) != 0:
+                choise = n1
+                step = 1
+        else:
+            change = n1
+            if choise == n2:
+                if len(l1) == 0:
+                    l1.insert(len(l1), l2[-1])
+                    del(l2[-1])
+                elif l2[-1] > l1[-1]:
+                    l1.insert(len(l1), l2[-1])
+                    del(l2[-1])
+            if choise == n3:
+                if len(l1) == 0:
+                    l1.insert(len(l1), l3[-1])
+                    del(l3[-1])
+                elif l3[-1] > l1[-1]:
+                    l1.insert(len(l1), l3[-1])
+                    del(l3[-1])
+            step = 0
+            choise = 0
+            change = 0
+        return(l1, l2, l3)
+
+
 
 def main():
     pygame.init()
     pygame.display.set_caption("Tower_of_Hanoi")
     screen = pygame.display.set_mode((sc_w, sc_h))
     clock = pygame.time.Clock()
-    choise = 0
-    change = 0
-    step = 0
     s1 = list(range(1, 6))
     s2 = []
     s3 = []
-
+    global step
+    global choise
+    global change
     running = True
     while running:
         ring = Ring()
@@ -45,87 +82,11 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_x = pygame.mouse.get_pos()[0]
                 if mouse_x <= 270:
-                    if step == 0:
-                        if len(s1) != 0:
-                            choise = 1
-                            step = 1
-                    else:
-                        change = 1
-                        if choise == 2:
-                            if len(s1) == 0:
-                                s1.insert(len(s1), s2[-1])
-                                del(s2[-1])
-                            elif s2[-1] > s1[-1]:
-                                s1.insert(len(s1), s2[-1])
-                                del(s2[-1])
-                        if choise == 3:
-                            if len(s1) == 0:
-                                s1.insert(len(s1), s3[-1])
-                                del(s3[-1])
-                            elif s3[-1] > s1[-1]:
-                                s1.insert(len(s1), s3[-1])
-                                del(s3[-1])
-                        step = 0
-                        print(s1)
-                        print(s2)
-                        print(s3)
-                        choise = 0
-                        change = 0
+                    s1, s2, s3 = change_ring(s1, s2, s3, 1, 2, 3)
                 elif mouse_x <= 530:
-                    if step == 0:
-                        if len(s2) != 0:
-                            choise = 2
-                            step = 1
-                    else:
-                        change = 2
-                        if choise == 1:
-                            if len(s2) == 0:
-                                s2.insert(len(s2), s1[-1])
-                                del(s1[-1])
-                            elif s1[-1] > s2[-1]:
-                                s2.insert(len(s2), s1[-1])
-                                del(s1[-1])
-                        if choise == 3:
-                            if len(s2) == 0:
-                                s2.insert(len(s2), s3[-1])
-                                del(s3[-1])
-                            elif s3[-1] > s2[-1]:
-                                s2.insert(len(s2), s3[-1])
-                                del(s3[-1])
-                        step = 0
-                        print(s1)
-                        print(s2)
-                        print(s3)
-                        choise = 0
-                        change = 0
+                    s2, s1, s3 = change_ring(s2, s1, s3, 2, 1, 3)
                 else:
-                    if step == 0:
-                        if len(s3) != 0:
-                            choise = 3
-                            step = 1
-                    else:
-                        change = 3
-                        if choise == 1:
-                            if len(s3) == 0:
-                                s3.insert(len(s3), s1[-1])
-                                del(s1[-1])
-                            elif s1[-1] > s3[-1]:
-                                s3.insert(len(s3), s1[-1])
-                                del(s1[-1])
-                        if choise == 2:
-                            if len(s3) == 0:
-                                s3.insert(len(s3), s2[-1])
-                                del(s2[-1])
-                            elif s2[-1] > s3[-1]:
-                                s3.insert(len(s3), s2[-1])
-                                del(s2[-1])
-                        step = 0
-                        print(choise, change)
-                        print(s1)
-                        print(s2)
-                        print(s3)
-                        choise = 0
-                        change = 0
+                    s3, s1, s2 = change_ring(s3, s1, s2, 3, 1, 2)
         
         screen.fill(BACKGROUND)
         pygame.draw.rect(screen, BASE, [0, 500, 800, 600], 0)

@@ -46,48 +46,86 @@ def main():
                 mouse_x = pygame.mouse.get_pos()[0]
                 if mouse_x <= 270:
                     if step == 0:
-                        choise = 1
-                        step = 1
+                        if len(s1) != 0:
+                            choise = 1
+                            step = 1
                     else:
                         change = 1
                         if choise == 2:
-                            s1.insert(len(s1), s2[-1])
-                            del(s2[-1])
+                            if len(s1) == 0:
+                                s1.insert(len(s1), s2[-1])
+                                del(s2[-1])
+                            elif s2[-1] > s1[-1]:
+                                s1.insert(len(s1), s2[-1])
+                                del(s2[-1])
                         if choise == 3:
-                            s1.insert(len(s1), s3[-1])
-                            del(s3[-1])
+                            if len(s1) == 0:
+                                s1.insert(len(s1), s3[-1])
+                                del(s3[-1])
+                            elif s3[-1] > s1[-1]:
+                                s1.insert(len(s1), s3[-1])
+                                del(s3[-1])
                         step = 0
+                        print(s1)
+                        print(s2)
+                        print(s3)
+                        choise = 0
+                        change = 0
                 elif mouse_x <= 530:
                     if step == 0:
-                        choise = 2
-                        step = 1
+                        if len(s2) != 0:
+                            choise = 2
+                            step = 1
                     else:
                         change = 2
                         if choise == 1:
-                            s2.insert(len(s2), s1[-1])
-                            del(s1[-1])
+                            if len(s2) == 0:
+                                s2.insert(len(s2), s1[-1])
+                                del(s1[-1])
+                            elif s1[-1] > s2[-1]:
+                                s2.insert(len(s2), s1[-1])
+                                del(s1[-1])
                         if choise == 3:
-                            s2.insert(len(s2), s3[-1])
-                            del(s3[-1])
+                            if len(s2) == 0:
+                                s2.insert(len(s2), s3[-1])
+                                del(s3[-1])
+                            elif s3[-1] > s2[-1]:
+                                s2.insert(len(s2), s3[-1])
+                                del(s3[-1])
                         step = 0
+                        print(s1)
+                        print(s2)
+                        print(s3)
+                        choise = 0
+                        change = 0
                 else:
                     if step == 0:
-                        choise = 3
-                        step = 1
+                        if len(s3) != 0:
+                            choise = 3
+                            step = 1
                     else:
                         change = 3
                         if choise == 1:
-                            s3.insert(len(s3), s1[-1])
-                            del(s1[-1])
+                            if len(s3) == 0:
+                                s3.insert(len(s3), s1[-1])
+                                del(s1[-1])
+                            elif s1[-1] > s3[-1]:
+                                s3.insert(len(s3), s1[-1])
+                                del(s1[-1])
                         if choise == 2:
-                            s3.insert(len(s3), s2[-1])
-                            del(s2[-1])
+                            if len(s3) == 0:
+                                s3.insert(len(s3), s2[-1])
+                                del(s2[-1])
+                            elif s2[-1] > s3[-1]:
+                                s3.insert(len(s3), s2[-1])
+                                del(s2[-1])
                         step = 0
-
-                print(choise, change)
-                print(s1)
-                print(s2)
-                print(s3)
+                        print(choise, change)
+                        print(s1)
+                        print(s2)
+                        print(s3)
+                        choise = 0
+                        change = 0
         
         screen.fill(BACKGROUND)
         pygame.draw.rect(screen, BASE, [0, 500, 800, 600], 0)

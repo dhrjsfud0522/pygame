@@ -17,6 +17,11 @@ class Ring():
         pass
     def create(self, screen, n, x, y, color):
         pygame.draw.rect(screen, color, [(250 * n) - 230 + (20 * x), 500 - (30 * y), 260 - (40 * x), 30], 0)
+    def draw(self, list, screen, n):
+        s = 1
+        for i in list:
+            Ring().create(screen, n, i, s, RED)
+            s += 1
 
 
 def main():
@@ -24,14 +29,16 @@ def main():
     pygame.display.set_caption("Tower_of_Hanoi")
     screen = pygame.display.set_mode((sc_w, sc_h))
     clock = pygame.time.Clock()
-
-
+    choise = 0
+    change = 0
+    step = 0
+    s1 = list(range(1, 6))
+    s2 = []
+    s3 = []
 
     running = True
     while running:
-        choise = 0
-        change = 0
-        step = 0
+        ring = Ring()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -43,6 +50,12 @@ def main():
                         step = 1
                     else:
                         change = 1
+                        if choise == 2:
+                            s1.insert(len(s1), s2[-1])
+                            del(s2[-1])
+                        if choise == 3:
+                            s1.insert(len(s1), s3[-1])
+                            del(s3[-1])
                         step = 0
                 elif mouse_x <= 530:
                     if step == 0:
@@ -50,6 +63,12 @@ def main():
                         step = 1
                     else:
                         change = 2
+                        if choise == 1:
+                            s2.insert(len(s2), s1[-1])
+                            del(s1[-1])
+                        if choise == 3:
+                            s2.insert(len(s2), s3[-1])
+                            del(s3[-1])
                         step = 0
                 else:
                     if step == 0:
@@ -57,23 +76,30 @@ def main():
                         step = 1
                     else:
                         change = 3
+                        if choise == 1:
+                            s3.insert(len(s3), s1[-1])
+                            del(s1[-1])
+                        if choise == 2:
+                            s3.insert(len(s3), s2[-1])
+                            del(s2[-1])
                         step = 0
-                
+
+                print(choise, change)
+                print(s1)
+                print(s2)
+                print(s3)
+        
         screen.fill(BACKGROUND)
         pygame.draw.rect(screen, BASE, [0, 500, 800, 600], 0)
         pygame.draw.rect(screen, BASE, [138, 240, 24, 300], 0)
         pygame.draw.rect(screen, BASE, [388, 240, 24, 300], 0)
         pygame.draw.rect(screen, BASE, [638, 240, 24, 300], 0)
-        ring = Ring()
-        ring.create(screen, 2, 2, 3, RED)  #ring.create(screen, 고리 위치, 몇단계 크기, 몇층, 색깔)
-        n1 = 0
-        n2 = 0
+        ring.draw(s1, screen, 1)
+        ring.draw(s2, screen, 2)
+        ring.draw(s3, screen, 3)
+
         pygame.display.flip()
         clock.tick(60)
     pygame.quit()
 
-
 main()
-
-
-

@@ -18,6 +18,7 @@ change = 0
 s1 = []
 s2 = []
 s3 = []
+count = 0
 
 
 class Ring():
@@ -35,6 +36,7 @@ def change_ring(l1, l2, l3, n1, n2, n3): #(자기 자신, 2번째 꺼, 3번쨰 �
         global step
         global choise
         global change
+        global count
         if step == 0:
             if len(l1) != 0:
                 choise = n1
@@ -56,8 +58,7 @@ def change_ring(l1, l2, l3, n1, n2, n3): #(자기 자신, 2번째 꺼, 3번쨰 �
                     l1.insert(len(l1), l3[-1])
                     del(l3[-1])
             step = 0
-            choise = 0
-            change = 0
+            count += 1
         return(l1, l2, l3)
 
 
@@ -73,6 +74,7 @@ def main():
     global step
     global choise
     global change
+    global count
     running = True
     while running:
         ring = Ring()
@@ -87,8 +89,34 @@ def main():
                     s2, s1, s3 = change_ring(s2, s1, s3, 2, 1, 3)
                 else:
                     s3, s1, s2 = change_ring(s3, s1, s2, 3, 1, 2)
-        
+        if s3 == [1, 2, 3, 4, 5]:
+            print("clear")
+            print("Time: " + str(time) + "s")
+            print("Count: " + str(count))
+            pygame.quit()
+
+        time = (pygame.time.get_ticks()) // 1000
+
         screen.fill(BACKGROUND)
+
+        font = pygame.font.Font(None, 36)  
+        timer_text = "Time: " + str(time) + "s"
+        timer_surface = font.render(timer_text, True, (0, 0, 0))     
+        screen.blit(timer_surface, (10 ,10))
+
+        count_text = "Count: " + str(count)    
+        count_surface = font.render(count_text, True, (0, 0, 0))     
+        screen.blit(count_surface, (150, 10))
+ 
+        min_text = "Min: " + str(2 ** 5 - 1)
+        min_surface = font.render(min_text, True, (0, 0, 0))     
+        screen.blit(min_surface, (300, 10))
+
+        change_text = str(choise) + " => " + str(change)
+        change_surface = font.render(change_text, True, (0, 0, 0))     
+        screen.blit(change_surface, (420, 10)) 
+        
+
         pygame.draw.rect(screen, BASE, [0, 500, 800, 600], 0)
         pygame.draw.rect(screen, BASE, [138, 240, 24, 300], 0)
         pygame.draw.rect(screen, BASE, [388, 240, 24, 300], 0)

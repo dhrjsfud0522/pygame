@@ -1,5 +1,6 @@
 import pygame
 import os
+from time import sleep
 
 sc_w = 800
 sc_h = 600
@@ -9,6 +10,10 @@ WHITE = (255, 255, 255)
 BASE = (153, 102, 0)
 BACKGROUND = (153, 153, 153)
 RED = (200, 50, 50)
+
+current_path = os.path.dirname(__file__)
+assets_path = os.path.join(current_path, 'assets')
+effect_image = pygame.image.load(os.path.join(assets_path, 'click_effect.png'))
 
 step = 0
 choise = 0
@@ -72,12 +77,12 @@ def game_over(screen):
     global time
     screen.fill(BACKGROUND)
     font = pygame.font.Font(None, 72)  
-    surface = font.render("GMAE OVER!", True, (0, 0, 0))     
+    surface = font.render("GAME OVER!", True, (0, 0, 0))     
     screen.blit(surface, (250 ,200))
     surface = font.render("YOU WIN!", True, (0, 0, 0))     
     screen.blit(surface, (280 ,260))
     font = pygame.font.Font(None, 36)  
-    surface = font.render("Time: " + str(time), True, (0, 0, 0))     
+    surface = font.render("Time: " + str(time) + "s", True, (0, 0, 0))     
     screen.blit(surface, (330 ,330))
     surface = font.render("Count: " + str(count), True, (0, 0, 0))     
     screen.blit(surface, (330 ,370))
@@ -100,12 +105,24 @@ def main():
     time_m = 0
     while running:
         if end == 0:
+            screen.fill(BACKGROUND)
             ring = Ring()
+            pygame.draw.rect(screen, BASE, [0, 500, 800, 600], 0)
+            pygame.draw.rect(screen, BASE, [138, 240, 24, 300], 0)
+            pygame.draw.rect(screen, BASE, [388, 240, 24, 300], 0)
+            pygame.draw.rect(screen, BASE, [638, 240, 24, 300], 0)
+            ring.draw(s1, screen, 1)
+            ring.draw(s2, screen, 2)
+            ring.draw(s3, screen, 3)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     mouse_x = pygame.mouse.get_pos()[0]
+                    effect_image.get_rect()
+                    size = effect_image.get_width() // 2
+                    screen.blit(effect_image, (pygame.mouse.get_pos()[0] - size, pygame.mouse.get_pos()[1] - size))
+
                     if mouse_x <= 270:
                         s1, s2, s3 = change_ring(s1, s2, s3, 1, 2, 3)
                     elif mouse_x <= 530:
@@ -127,7 +144,7 @@ def main():
 
             time = (pygame.time.get_ticks()) // 1000 - time_m
 
-            screen.fill(BACKGROUND)
+            
 
             font = pygame.font.Font(None, 36)  
             timer_text = "Time: " + str(time) + "s"
@@ -146,13 +163,7 @@ def main():
             change_surface = font.render(change_text, True, (0, 0, 0))
             screen.blit(change_surface, (420, 10)) 
             
-            pygame.draw.rect(screen, BASE, [0, 500, 800, 600], 0)
-            pygame.draw.rect(screen, BASE, [138, 240, 24, 300], 0)
-            pygame.draw.rect(screen, BASE, [388, 240, 24, 300], 0)
-            pygame.draw.rect(screen, BASE, [638, 240, 24, 300], 0)
-            ring.draw(s1, screen, 1)
-            ring.draw(s2, screen, 2)
-            ring.draw(s3, screen, 3)
+            
             pygame.display.flip()
             clock.tick(60)
         else:

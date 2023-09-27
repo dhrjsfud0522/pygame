@@ -86,6 +86,8 @@ def game_over(screen):
     screen.blit(surface, (330 ,330))
     surface = font.render("Count: " + str(count), True, (0, 0, 0))     
     screen.blit(surface, (330 ,370))
+    surface = font.render("Min: " + "31", True, (0, 0, 0))     
+    screen.blit(surface, (330 ,410))
 
 def main():
     pygame.init()
@@ -103,6 +105,7 @@ def main():
     global end
     running = True
     time_m = 0
+    effect = 0
     while running:
         if end == 0:
             screen.fill(BACKGROUND)
@@ -122,6 +125,9 @@ def main():
                     effect_image.get_rect()
                     size = effect_image.get_width() // 2
                     screen.blit(effect_image, (pygame.mouse.get_pos()[0] - size, pygame.mouse.get_pos()[1] - size))
+                    effect = 1
+
+            
 
                     if mouse_x <= 270:
                         s1, s2, s3 = change_ring(s1, s2, s3, 1, 2, 3)
@@ -139,6 +145,12 @@ def main():
                         count = 0
                         time_m += time
 
+            if effect == 1:
+                effect_image.get_rect()
+                size = effect_image.get_width() // 2
+                screen.blit(effect_image, (pygame.mouse.get_pos()[0] - size, pygame.mouse.get_pos()[1] - size))
+                effect = 0
+                
             if s3 == [1, 2, 3, 4, 5]:   
                 end = 1
 

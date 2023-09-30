@@ -36,7 +36,7 @@ class Ring():
     def draw(self, list, screen, n):
         s = 1
         for i in list:
-            Ring().create(screen, n, i, s, RED)
+            Ring().create(screen, n, 10 - i, s, RED)
             s += 1
 
 def change_ring(l1, l2, l3, n1, n2, n3):
@@ -56,7 +56,7 @@ def change_ring(l1, l2, l3, n1, n2, n3):
                     l1.insert(len(l1), l2[-1])
                     del(l2[-1])
                     count += 1
-                elif l2[-1] > l1[-1]:
+                elif l2[-1] < l1[-1]:
                     change = n1
                     l1.insert(len(l1), l2[-1])
                     del(l2[-1])
@@ -67,18 +67,19 @@ def change_ring(l1, l2, l3, n1, n2, n3):
                     l1.insert(len(l1), l3[-1])
                     del(l3[-1])
                     count += 1
-                elif l3[-1] > l1[-1]:
+                elif l3[-1] < l1[-1]:
                     change = n1
                     l1.insert(len(l1), l3[-1])
                     del(l3[-1])
                     count += 1
-            step = 0 
+            step = 0
+        
         return(l1, l2, l3)
 
 time = 0
 end = 0
 
-def game(s1, s2, s3, s_c):
+def game(s1, s2, s3, m):
     global step
     global choise
     global change
@@ -116,6 +117,10 @@ def game(s1, s2, s3, s_c):
                         s2, s1, s3 = change_ring(s2, s1, s3, 2, 1, 3)
                     else:
                         s3, s1, s2 = change_ring(s3, s1, s2, 3, 1, 2)
+                    print(s1)
+                    print(s2)
+                    print(s3)
+                    print(s_c)
 
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_r:
@@ -132,7 +137,8 @@ def game(s1, s2, s3, s_c):
                 size = effect_image.get_width() // 2
                 screen.blit(effect_image, (pygame.mouse.get_pos()[0] - size, pygame.mouse.get_pos()[1] - size))
                 effect = 0
-                
+            s_c = list(range(1, m))
+            s_c.reverse()
             if s3 == s_c:   
                 end = 1
 
@@ -182,8 +188,6 @@ def game(s1, s2, s3, s_c):
                         count = 0
                         time_m += time
                         end = 0
-
-            time = (pygame.time.get_ticks()) // 1000
             
         pygame.display.flip()
         clock.tick(60)
@@ -210,11 +214,12 @@ def main():
                     m = 10
                 elif event.key == pygame.K_SPACE:
                     r = False
-                    game(s1, s2, s3, s1)
+                    game(s1, s2, s3, m)
         if not r:
             break
 
         s1 = list(range(1, m))
+        s1.reverse()
         s2 = []
         s3 = []       
         pygame.display.flip()

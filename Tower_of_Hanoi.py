@@ -32,7 +32,7 @@ class Ring():
     def __init__(self):
         pass
     def create(self, screen, n, x, y, color):
-        pygame.draw.rect(screen, color, [(250 * n) - 250 + (20 * x), 500 - (30 * y), 300 - (40 * x), 30], 0)
+        pygame.draw.rect(screen, color, [(250 * n) - 250 + (14 * x), 500 - (30 * y), 300 - (28 * x), 30], 0)
     def draw(self, list, screen, n):
         s = 1
         for i in list:
@@ -78,7 +78,7 @@ def change_ring(l1, l2, l3, n1, n2, n3):
 time = 0
 end = 0
 
-def game(s1, s2,s3):
+def game(s1, s2, s3, s_c):
     global step
     global choise
     global change
@@ -94,9 +94,9 @@ def game(s1, s2,s3):
             screen.fill(BACKGROUND)
             ring = Ring()
             pygame.draw.rect(screen, BASE, [0, 500, 800, 600], 0)
-            pygame.draw.rect(screen, BASE, [138, 240, 24, 300], 0)
-            pygame.draw.rect(screen, BASE, [388, 240, 24, 300], 0)
-            pygame.draw.rect(screen, BASE, [638, 240, 24, 300], 0)
+            pygame.draw.rect(screen, BASE, [138, 200, 24, 300], 0)
+            pygame.draw.rect(screen, BASE, [388, 200, 24, 300], 0)
+            pygame.draw.rect(screen, BASE, [638, 200, 24, 300], 0)
             ring.draw(s1, screen, 1)
             ring.draw(s2, screen, 2)
             ring.draw(s3, screen, 3)
@@ -133,7 +133,7 @@ def game(s1, s2,s3):
                 screen.blit(effect_image, (pygame.mouse.get_pos()[0] - size, pygame.mouse.get_pos()[1] - size))
                 effect = 0
                 
-            if s3 == [1, 2, 3, 4, 5]:   
+            if s3 == s_c:   
                 end = 1
 
             time = (pygame.time.get_ticks()) // 1000 - time_m
@@ -204,9 +204,13 @@ def main():
                     m = 7
                 elif event.key == pygame.K_7:
                     m = 8
+                elif event.key == pygame.K_8:
+                    m = 9
+                elif event.key == pygame.K_9:
+                    m = 10
                 elif event.key == pygame.K_SPACE:
                     r = False
-                    game(s1, s2, s3)
+                    game(s1, s2, s3, s1)
         if not r:
             break
 

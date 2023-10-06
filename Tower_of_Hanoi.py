@@ -1,17 +1,15 @@
 import pygame
 import os
 
-
 sc_w = 800
 sc_h = 600
 
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
 BASE = (153, 102, 0)
 BACKGROUND = (153, 153, 153)
 RED = (200, 50, 50)
-BLUE = (50, 50, 200)
-GREEN = (50, 200, 50)
+BLACK = (0, 0, 0)
+RECT = (120, 120, 120)
+RECT_ = (80, 80, 80)
 
 pygame.init()
 pygame.display.set_caption("Tower_of_Hanoi")
@@ -22,6 +20,7 @@ current_path = os.path.dirname(__file__)
 assets_path = os.path.join(current_path, 'assets')
 effect_image = pygame.image.load(os.path.join(assets_path, 'click_effect.png'))
 
+
 step = 0
 choise = 0
 change = 0
@@ -30,7 +29,7 @@ s2 = []
 s3 = []
 count = 0
 
-class Ring():
+class Disk():
     def __init__(self):
         pass
     def create(self, screen, n, x, y, color):
@@ -38,10 +37,11 @@ class Ring():
     def draw(self, list, screen, n):
         s = 1
         for i in list:
-            Ring().create(screen, n, 10 - i, s, RED)
+            Disk().create(screen, n, 10 - i, s, RED)
             s += 1
 
-def change_ring(l1, l2, l3, n1, n2, n3):
+
+def change_disk(l1, l2, l3, n1, n2, n3):
         global step
         global choise
         global change
@@ -75,16 +75,13 @@ def change_ring(l1, l2, l3, n1, n2, n3):
                     del(l3[-1])
                     count += 1
             step = 0
-        
         return(l1, l2, l3)
+
 
 time = 0
 time_m = 0
-end = 0
-r = True
-running = True
 
-def game(s1, s2, s3, m):
+def game(m):
     global step
     global choise
     global change
@@ -96,28 +93,31 @@ def game(s1, s2, s3, m):
     count = 0
     choise = 0
     change = 0
-    global running
-    global r
-    r = False
     running = True
-    
+    s1 = list(range(1, m))
+    s1.reverse()
+    s2 = []
+    s3 = []
+    s_c = list(range(1, m))
+    s_c.reverse()
+    end = 0
+
     while running:
-        time = (pygame.time.get_ticks()) // 1000 - time_m
         if end == 0:
+            time = (pygame.time.get_ticks()) // 1000 - time_m
             screen.fill(BACKGROUND)
-            ring = Ring()
+            disk = Disk()
             pygame.draw.rect(screen, BASE, [0, 500, 800, 600], 0)
             pygame.draw.rect(screen, BASE, [138, 200, 24, 300], 0)
             pygame.draw.rect(screen, BASE, [388, 200, 24, 300], 0)
             pygame.draw.rect(screen, BASE, [638, 200, 24, 300], 0)
-            ring.draw(s1, screen, 1)
-            ring.draw(s2, screen, 2)
-            ring.draw(s3, screen, 3)
+            disk.draw(s1, screen, 1)
+            disk.draw(s2, screen, 2)
+            disk.draw(s3, screen, 3)
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    r = False
-                    running = False
-                    
+                    return 0
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     mouse_x = pygame.mouse.get_pos()[0]
                     effect_image.get_rect()
@@ -125,81 +125,95 @@ def game(s1, s2, s3, m):
                     screen.blit(effect_image, (pygame.mouse.get_pos()[0] - size, pygame.mouse.get_pos()[1] - size))
                     effect = 1
                     if mouse_x <= 270:
-                        s1, s2, s3 = change_ring(s1, s2, s3, 1, 2, 3)
+                        s1, s2, s3 = change_disk(s1, s2, s3, 1, 2, 3)
                     elif mouse_x <= 530:
-                        s2, s1, s3 = change_ring(s2, s1, s3, 2, 1, 3)
+                        s2, s1, s3 = change_disk(s2, s1, s3, 2, 1, 3)
                     else:
-                        s3, s1, s2 = change_ring(s3, s1, s2, 3, 1, 2)
-
+                        s3, s1, s2 = change_disk(s3, s1, s2, 3, 1, 2)
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_r:
                         main()
+                        return 0
 
             if effect == 1:
                 effect_image.get_rect()
                 size = effect_image.get_width() // 2
                 screen.blit(effect_image, (pygame.mouse.get_pos()[0] - size, pygame.mouse.get_pos()[1] - size))
                 effect = 0
-            s_c = list(range(1, m))
-            s_c.reverse()
             if s3 == s_c:   
                 end = 1
 
             font = pygame.font.Font(None, 36)  
             timer_text = "Time: " + str(time) + "s"
-            timer_surface = font.render(timer_text, True, (0, 0, 0))
-            screen.blit(timer_surface, (10 ,10))
-
+            timer_surface = font.render(timer_text, True, BLACK)
+            screen.blit(timer_surface, (10, 10))
             count_text = "Count: " + str(count)    
-            count_surface = font.render(count_text, True, (0, 0, 0))
-            screen.blit(count_surface, (150, 10))
-    
+            count_surface = font.render(count_text, True, BLACK)
+            screen.blit(count_surface, (150, 10))   
             min_text = "Min: " + str(2 ** (m - 1) - 1)
-            min_surface = font.render(min_text, True, (0, 0, 0))
+            min_surface = font.render(min_text, True, BLACK)
             screen.blit(min_surface, (300, 10))
-
             change_text = str(choise) + " => " + str(change)
-            change_surface = font.render(change_text, True, (0, 0, 0))
-            screen.blit(change_surface, (420, 10)) 
+            change_surface = font.render(change_text, True, BLACK)
+            screen.blit(change_surface, (420, 10))
 
         else:
             screen.fill(BACKGROUND)
             font = pygame.font.Font(None, 72)
-            surface = font.render("GAME OVER!", True, (0, 0, 0))
-            screen.blit(surface, (250 ,200))
-            surface = font.render("YOU WIN!", True, (0, 0, 0))  
-            screen.blit(surface, (280 ,260))
+            surface = font.render("GAME OVER!", True, BLACK)
+            screen.blit(surface, (250, 200))
+            surface = font.render("YOU WIN!", True, BLACK)  
+            screen.blit(surface, (280, 260))
             font = pygame.font.Font(None, 36)
-            surface = font.render("Time: " + str(time) + "s", True, (0, 0, 0)) 
-            screen.blit(surface, (330 ,330))
-            surface = font.render("Count: " + str(count), True, (0, 0, 0))
-            screen.blit(surface, (330 ,370))
-            surface = font.render("Min: " + str(2 ** (m - 1) - 1), True, (0, 0, 0))
-            screen.blit(surface, (330 ,410))
+            surface = font.render("Time: " + str(time) + "s", True, BLACK) 
+            screen.blit(surface, (330, 330))
+            surface = font.render("Count: " + str(count), True, BLACK)
+            screen.blit(surface, (330, 370))
+            surface = font.render("Min: " + str(2 ** (m - 1) - 1), True, BLACK)
+            screen.blit(surface, (330, 410))
+
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.QUIT:
+                    return 0
+                elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_r:
                         main()
+                        return 0
+
         pygame.display.flip()
         clock.tick(60)
     pygame.quit()
 
+
 def main():
-    global r
-    global running
     global time
     global time_m
-    r = True
-    running = False
+    running = True
     m = 6
+
     while True:
-        if r:
-            time = (pygame.time.get_ticks()) // 1000
+        time = (pygame.time.get_ticks()) // 1000
+        if running:
+            clock.tick(60)
+            pygame.display.flip()
             screen.fill(BACKGROUND)
+
+            rect = (140, 90, 540, 80)
+            pygame.draw.rect(screen, RECT, rect)
+            pygame.draw.rect(screen, RECT_, rect, 4)
+            font = pygame.font.Font(None, 100)
+            surface = font.render("Tower of Hanoi", True, BLACK)
+            screen.blit(surface, (160, 100))
+            font = pygame.font.Font(None, 56)
+            surface = font.render("disk num: " + str(m), False, BLACK)
+            screen.blit(surface, (290, 300))
+            surface = font.render("< Press SPACE to start >", False, BLACK)
+            screen.blit(surface, (180, 450))
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    r = False
                     running = False
+                    return 0
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_3:
                         m = 4
@@ -217,20 +231,9 @@ def main():
                         m = 10
                     elif event.key == pygame.K_SPACE:
                         time_m = time
-                        game(s1, s2, s3, m)
-                        
-
-            s1 = list(range(1, m))
-            s1.reverse()
-            s2 = []
-            s3 = []       
-            pygame.display.flip()
-            clock.tick(60)
+                        game(m)
+                        return 0
         else:
             break
     pygame.quit()
-            
 main()
-
-
-

@@ -21,6 +21,11 @@ current_path = os.path.dirname(__file__)
 assets_path = os.path.join(current_path, 'assets')
 effect_image = pygame.image.load(os.path.join(assets_path, 'click_effect.png'))
 
+pygame.mixer.music.load(os.path.join(assets_path, "music.wav"))
+pygame.mixer.music.play(-1)
+
+click_1 = pygame.mixer.Sound(os.path.join(assets_path, 'ping.wav'))
+click_2 = pygame.mixer.Sound(os.path.join(assets_path, 'pong.wav'))
 
 step = 0
 choise = 0
@@ -48,11 +53,14 @@ def change_disk(l1, l2, l3, n1, n2, n3):
         global change
         global count
         if step == 0:
+            click_1.play()
             if len(l1) != 0:
                 choise = n1
                 change = 0
                 step = 1
+                
         else:
+            click_2.play()
             if choise == n2:
                 if len(l1) == 0:
                     change = n1
